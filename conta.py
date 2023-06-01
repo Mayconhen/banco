@@ -1,5 +1,5 @@
 import pandas
-from openpyxl import load_workbook
+import openpyxl
 
 planilha_caminho = 'contas.xlsx'
 
@@ -34,13 +34,25 @@ class contas:
         planilha = pandas.read_excel(planilha_caminho)
         print(planilha.iloc[numero])
 
-    def mudarvalor():
-        planilha_caminho = 'contas.xlsx'
-        planilha = pandas.read_excel(planilha_caminho)
-        for index, row in planilha.iterrows():
-            planilha.loc[row, "SALDO"] = 100
-            print(row["SALDO"])
-        
+    def mudarvalor(iloc, valor):
+        planilha = pandas.read_excel('contas.xlsx')
+        planNome = planilha["NOME"]
+        planAg = planilha["AGENCIA"]
+        planConta = planilha["CONTA"]
+        planSaldo = planilha["SALDO"].astype("int64")
+        index = 0
+        for row in planConta:
+            if row == iloc:
+                planSaldo[index] = int(valor)
+            index += 1
+        valor = {
+            "NOME":planNome,
+            "AGENCIA": planAg,
+            "CONTA": planConta,
+            "SALDO": planSaldo.astype("int64")
+        }
+        df = pandas.DataFrame(valor).round(1)
+        df.to_excel('contas.xlsx', index = False)
         
 
         

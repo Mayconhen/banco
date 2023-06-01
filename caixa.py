@@ -5,10 +5,10 @@ import pandas
 
 # contas.retornardadosconta(opcao)
     
-# iloc = int(input("Digite a conta que deseja mudar: "))
-# valor = input("Digite o valor que deseja mudar: ")
+iloc = int(input("Digite a conta que deseja mudar: "))
+valor = input("Digite o valor que deseja mudar: ")
 
-contas.mudarvalor()
+contas.mudarvalor(iloc, valor)
 contas.extrato()
 
 
