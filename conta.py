@@ -22,15 +22,13 @@ class contas:
             lista.append(contas(agencia))
             lista.append(contas(numero_conta))
             lista.append(contas(saldo))
-            lista.append(contas(limite))
-            print("Nome:{}\nAgencia:{}\nConta:{}\nSaldo:{}\nLimite:{}\n".format(
-            row["NOME"], row["AGENCIA"], row["CONTA"], row["SALDO"], row["LIMITE"]))
+            print("Nome:{}\nAgencia:{}\nConta:{}\nSaldo:{}\n".format(row["NOME"], row["AGENCIA"], row["CONTA"], row["SALDO"]))
 
-    def extrato():
-        planilha_caminho = 'contas.xlsx'
-        planilha = pandas.read_excel(planilha_caminho)
-        for index, row in planilha.iterrows():
-            print("Saldo:{}".format(row["SALDO"]))
+    def extrato(conta):
+        planilha = pandas.read_excel('contas.xlsx')
+        planConta = planilha["SALDO"]
+        print(planConta[conta])
+        valor ={"SALDO": planConta}
 
 
     def retornarcontas():
@@ -39,42 +37,26 @@ class contas:
         print(planilha)       
 
     def retornardadosconta(numero):
-        planilha_caminho = 'contas.xlsx'
-        planilha = pandas.read_excel(planilha_caminho)
-        print(planilha.iloc[numero])
+        planilha = pandas.read_excel('contas.xlsx')
+        print(planilha.iloc[[numero]])
 
-    def mudarvalor(iloc, valor):
+    def depositar(conta, valor):
         planilha = pandas.read_excel('contas.xlsx')
         planNome = planilha["NOME"]
         planAg = planilha["AGENCIA"]
         planConta = planilha["CONTA"]
         planSaldo = planilha["SALDO"].astype("int64")
-        index = 0
-        for row in planConta:
-            if row == iloc:
-                planSaldo[index] = int(valor)
-            index += 1
+        planLimite = planilha["LIMITE"]
+        planSaldo[conta] = planSaldo[conta] + valor
         valor = {
             "NOME":planNome,
             "AGENCIA": planAg,
             "CONTA": planConta,
-            "SALDO": planSaldo.astype("int64")
+            "SALDO": planSaldo,
+            "LIMITE": planSaldo
         }
         df = pandas.DataFrame(valor).round(1)
         df.to_excel('contas.xlsx', index = False)
-
-    def emprestimo(iloc, valor):
-        planilha = pandas.read_excel('contas.xlsx')
-        dado = planilha.iloc[[iloc], row["LIMITE"]]
-        for index, row in planilha.iterrows():
-            if valor > dado:
-                print("Empréstimo contratado")
-            else:
-                print("Você não possui limite para contratar esse valor de empréstimo")
-
-                
-
-
         
 
         
