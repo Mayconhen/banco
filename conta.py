@@ -34,17 +34,37 @@ class contas:
         planilha = pandas.read_excel(planilha_caminho)
         print(planilha.iloc[numero])
 
-    def mudarvalor(iloc, valor):
+    def mudarvalor(iloc,coluna, valor):
         planilha = pandas.read_excel('contas.xlsx')
         planNome = planilha["NOME"]
         planAg = planilha["AGENCIA"]
         planConta = planilha["CONTA"]
         planSaldo = planilha["SALDO"].astype("int64")
         index = 0
-        for row in planConta:
-            if row == iloc:
-                planSaldo[index] = int(valor)
-            index += 1
+        if coluna == 1:
+            for row in planConta:
+                if row == iloc:
+                    planNome[index] = (valor)
+                index += 1   
+            
+        elif coluna == 2:
+            for row in planConta:
+                if row == iloc:
+                    planAg[index] = str(valor)
+                index += 1
+
+        elif coluna == 3:
+            for row in planConta:
+                if row == iloc:
+                    planConta[index] = (valor)
+                index += 1 
+
+        elif coluna == 4:
+            for row in planConta:
+                if row == iloc:
+                    planSaldo[index] = int(valor)
+                index += 1
+
         valor = {
             "NOME":planNome,
             "AGENCIA": planAg,
@@ -53,6 +73,9 @@ class contas:
         }
         df = pandas.DataFrame(valor).round(1)
         df.to_excel('contas.xlsx', index = False)
+
+    def limite():
+        print("atata")
         
 
         
