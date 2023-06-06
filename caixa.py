@@ -1,15 +1,23 @@
 from conta import contas
 import pandas
+from PySimpleGUI import PySimpleGUI as sg
 
-# opcao = int(input("Digite qual conta quer consultar: "))
+#layou
+sg.theme('Reddit')
+layout = [
+    [sg.Text('Conta:'), sg.Input(key='Conta')],
+    [sg.Button('Mostrar')]
+]
 
-# contas.retornardadosconta(opcao)
-    
-iloc = int(input("Digite a conta que deseja mudar: "))
-valor = input("Digite o valor que deseja mudar: ")
+#janela
+janela = sg.Window("Banquinho xereca", layout)
 
-contas.mudarvalor(iloc, valor)
-contas.extrato()
-
-
-
+#ler os eventos
+while True:
+    eventos, valores = janela.read()
+    if eventos == sg.WINDOW_CLOSED:
+        break
+    if eventos == 'Mostrar':
+        if valores['Conta'] == '0':
+            sg.Print(sg.Window("Saldo:{}".format(contas.extrato())))
+            

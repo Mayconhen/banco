@@ -17,17 +17,26 @@ class contas:
             agencia = row["AGENCIA"]
             numero_conta = row["CONTA"]
             saldo = row["SALDO"]
+            limite = row["LIMITE"]
             lista.append(contas(nome))
             lista.append(contas(agencia))
             lista.append(contas(numero_conta))
             lista.append(contas(saldo))
-            print("Nome:{}\nAgencia:{}\nConta:{}\nSaldo:{}\n".format(row["NOME"], row["AGENCIA"], row["CONTA"], row["SALDO"]))
+            lista.append(contas(limite))
+            print("Nome:{}\nAgencia:{}\nConta:{}\nSaldo:{}\nLimite:{}\n".format(
+            row["NOME"], row["AGENCIA"], row["CONTA"], row["SALDO"], row["LIMITE"]))
 
     def extrato():
         planilha_caminho = 'contas.xlsx'
         planilha = pandas.read_excel(planilha_caminho)
         for index, row in planilha.iterrows():
             print("Saldo:{}".format(row["SALDO"]))
+
+
+    def retornarcontas():
+        planilha_caminho = 'contas.xlsx'
+        planilha = pandas.read_excel(planilha_caminho)
+        print(planilha)       
 
     def retornardadosconta(numero):
         planilha_caminho = 'contas.xlsx'
@@ -53,6 +62,19 @@ class contas:
         }
         df = pandas.DataFrame(valor).round(1)
         df.to_excel('contas.xlsx', index = False)
+
+    def emprestimo(iloc, valor):
+        planilha = pandas.read_excel('contas.xlsx')
+        dado = planilha.iloc[[iloc], row["LIMITE"]]
+        for index, row in planilha.iterrows():
+            if valor > dado:
+                print("Empréstimo contratado")
+            else:
+                print("Você não possui limite para contratar esse valor de empréstimo")
+
+                
+
+
         
 
         
