@@ -17,86 +17,83 @@ class contas:
             numero_conta = row["CONTA"]
             saldo = row["SALDO"]
             limite = row["LIMITE"]
-            cpf = (row["CPF"])
+            usuario = (row["USUARIO"])
             senha = (row["SENHA"])
             lista.append(contas(nome))
             lista.append(contas(agencia))
             lista.append(contas(numero_conta))
             lista.append(contas(saldo))
             lista.append(contas(limite))
-            lista.append(contas(cpf))
+            lista.append(contas(usuario))
             lista.append(contas(senha))
             print("Nome:{}\nAgencia:{}\nConta:{}\nSaldo:{}\nCPF:{}\n".format(row["NOME"], 
-            row["AGENCIA"], row["CONTA"], row["SALDO"], row["CPF"], row["SENHA"]))
+            row["AGENCIA"], row["CONTA"], row["SALDO"], row["USUARIO"], row["SENHA"]))
 
-    def extrato(cpf, senha):
+    def extrato(usuario):
         planilha = pandas.read_excel('contas.xlsx')
-        planCpf = planilha["CPF"].astype("int64")
-        planSenha = planilha["SENHA"].astype("int64")
-        if any((planCpf == cpf) & (planSenha == senha)):
-            planConta = planilha["SALDO"]
-            saldo = planConta[planCpf == cpf].values[0]
-            print("Saldo da conta: R$ {}".format(saldo)) 
+        planSaldo = planilha["SALDO"].astype("int64")
+        print("Saldo da conta: R$ {}".format(planSaldo[usuario])) 
 
     def retornardadosconta(numero):
         planilha = pandas.read_excel('contas.xlsx')
         print(planilha.iloc[[numero]])
 
-    def depositar(cpf, senha, valor):
+    def depositar(usuario,valor):
         planilha = pandas.read_excel('contas.xlsx')
         planNome = planilha["NOME"]
         planAg = planilha["AGENCIA"]
         planConta = planilha["CONTA"]
         planSaldo = planilha["SALDO"].astype("int64")
         planLimite = planilha["LIMITE"]
-        planCpf = planilha["CPF"].astype("string")
+        planUsuario = planilha["USUARIO"].astype("int64")
         planSenha = planilha["SENHA"].astype("int64")
-        if any((planCpf == cpf) & (planSenha == senha)):
-            planSaldo[cpf] = planSaldo[cpf] + valor
+        planSaldo[usuario] = planSaldo[usuario] + valor
+        print("Foi depositado R${} na sua conta!".format(valor))
         valor = {
             "NOME":planNome,
             "AGENCIA": planAg,
             "CONTA": planConta,
             "SALDO": planSaldo,
             "LIMITE": planLimite,
-            "CPF": planCpf,
+            "USUARIO": planUsuario,
             "SENHA": planSenha
         }
         df = pandas.DataFrame(valor).round(1)
         df.to_excel('contas.xlsx', index = False)
 
-    def sacar(cpf, senha, valor):
+
+    def sacar(usuario, valor):
         planilha = pandas.read_excel('contas.xlsx')
         planNome = planilha["NOME"]
         planAg = planilha["AGENCIA"]
         planConta = planilha["CONTA"]
         planSaldo = planilha["SALDO"].astype("int64")
         planLimite = planilha["LIMITE"]
-        planCpf = planilha["CPF"].astype("string")
+        planUsuario = planilha["USUARIO"].astype("int64")
         planSenha = planilha["SENHA"].astype("int64")
-        if any((planCpf == cpf) & (planSenha == senha)):
-            planSaldo[cpf] = planSaldo[cpf] - valor
+        planSaldo[usuario] = planSaldo[usuario] - valor
+        print("Foi sacado R${} da sua conta!".format(valor))
         valor = {
             "NOME":planNome,
             "AGENCIA": planAg,
             "CONTA": planConta,
             "SALDO": planSaldo,
-            "LIMITE": planSaldo,
-            "CPF": planCpf,
+            "LIMITE": planLimite,
+            "USUARIO": planUsuario,
             "SENHA": planSenha
         }
         df = pandas.DataFrame(valor).round(1)
         df.to_excel('contas.xlsx', index = False)
         
 
-    def validar(cpf, senha):
+    def validar(usuario, senha):
         planilha = pandas.read_excel('contas.xlsx')
         planNome = planilha["NOME"]
         planAg = planilha["AGENCIA"]
         planConta = planilha["CONTA"]
         planSaldo = planilha["SALDO"].astype("int64")
         planLimite = planilha["LIMITE"]
-        planCpf = planilha["CPF"].astype("string")
+        planUsuario = planilha["USUARIO"].astype("int64")
         planSenha = planilha["SENHA"].astype("int64")
         valor = {
             "NOME":planNome,
@@ -104,12 +101,12 @@ class contas:
             "CONTA": planConta,
             "SALDO": planSaldo,
             "LIMITE": planLimite,
-            "CPF": planCpf,
+            "USUARIO": planUsuario,
             "SENHA": planSenha
         }
         df = pandas.DataFrame(valor).round(1)
         df.to_excel('contas.xlsx', index = False)
-        if any((planCpf == cpf) & (planSenha == senha)):
+        if any((planUsuario == usuario) & (planSenha == senha)):
             return True
         else:
             return False
