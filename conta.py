@@ -71,8 +71,12 @@ class contas:
         planLimite = planilha["LIMITE"]
         planUsuario = planilha["USUARIO"].astype("int64")
         planSenha = planilha["SENHA"].astype("int64")
-        planSaldo[usuario] = planSaldo[usuario] - valor
-        print("Foi sacado R${} da sua conta!".format(valor))
+        if valor <= planSaldo[usuario]:
+            planSaldo[usuario] = planSaldo[usuario] - valor
+            print("Foi sacado R${} da sua conta!".format(valor))
+        elif valor > planSaldo[usuario]:
+            planSaldo[usuario] = planSaldo[usuario]
+            print("Você não tem esse valor disponível em conta.")
         valor = {
             "NOME":planNome,
             "AGENCIA": planAg,
